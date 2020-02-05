@@ -30,7 +30,7 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: int
-
+        TODO:
         Hash Table: 1. Key   2. Value   3. Hash Func.
                     Map Key to Value by: Hash(Key) => index
                     Hash will tell you exactly where, which index, to start up.
@@ -52,7 +52,7 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: int
-
+        TODO:
         set() is an unordered collection with no duplicate elements.
         """
         return(2 * sum(set(nums)) - sum(nums))
@@ -71,6 +71,7 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: int
+        TODO:
         reduce的工作过程是 ：在迭代sequence(tuple ，list ，dictionary， string等可迭代物)的过程中，首先把 前两个元素传给 函数参数，
         函数加工后，然后把得到的结果和第三个元素作为两个参数传给函数参数， 函数加工后得到的结果又和第四个元素作为两个参数传给函数参数，依
         次类推。 如果传入了 initial 值， 那么首先传的就不是 sequence 的第一个和第二个元素，而是 initial值和 第一个元素。经过这样的累计
