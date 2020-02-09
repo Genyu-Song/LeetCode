@@ -9,6 +9,9 @@ class Solution(object):
         """
         :type s: str
         :rtype: str
+
+        TODO:
+        list to string: ''.join(list)
         """
         vowels = ['a', 'e', 'i', 'o', 'u',
                   'A', 'E', 'I', 'O', 'U']
