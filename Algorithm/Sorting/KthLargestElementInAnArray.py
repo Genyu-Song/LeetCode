@@ -4,6 +4,8 @@
 Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
 '''
 
+from random import randint
+
 class Solution(object):
     def method1(self, nums, k):
         """
@@ -88,7 +90,7 @@ class heapify(object):
             self.__swap(index, min_index)
             index = min_index
 
-    def klargest(self, nums, k):
+    def findKthLargest(self, nums, k):
         self.nums = nums
         self.k = k
         self.data_list = [0]
@@ -99,7 +101,66 @@ class heapify(object):
                 self.__bubbledown(i)
         return self.data_list[1]
 
+class QuickSort(object):
+    """
+    :type nums: List[int]
+    :type k: int
+    :rtype: int
+    Quick sort —— Partition
+    TODO: NEXT TIME !
+    """
+
+    def swap(self, index1, index2):
+        self.nums[index1], self.nums[index2] = self.nums[index2], self.nums[index1]
+
+    def get_pivot(self, first, last):
+        '''
+        TODO: Attention
+        '''
+        mid = (first + last) // 2
+        pivot = last
+        if self.nums[first] < self.nums[mid]:
+            if self.nums[mid] > self.nums[last]:
+                pivot = mid
+        elif self.nums[first] < self.nums[last]:
+            pivot = first
+        return pivot
+
+    def partition(self, left, right, pivot):
+        if left == right:
+            return left
+        if right - left == 1:
+            if self.nums[left] > self.nums[right]:
+                self.swap(left, right)
+                return right
+        self.swap(left, pivot)
+        border = left + 1
+        for i in range(left + 2, right + 1):
+            if self.nums[i] < self.nums[left]:
+                self.swap(i, border)
+                if i != right:
+                    border += 1
+        self.swap(left, border)
+        return border
+
+    def findKthLargest(self, nums, k):
+        self.nums = nums
+        self.k = k
+        left, right = 0, len(self.nums) - 1
+        # while store_index != len(self.nums) - k:
+        while left <= right:
+            pivot = self.get_pivot(left, right)
+            store_index = self.partition(left, right, pivot)
+            if store_index > len(nums) - k:
+                right = store_index - 1
+            elif store_index < len(nums) - k:
+                left = store_index + 1
+            elif store_index == len(nums) - k:
+                return nums[store_index]
+
 if __name__ == '__main__':
     print(Solution().method2(nums=[3,2,1,5,6,4], k=2))
 
-    print(heapify().klargest(nums=[3,2,3,1,2,4,5,5,6], k=9))
+    print(heapify().findKthLargest(nums=[3,2,3,1,2,4,5,5,6], k=9))
+
+    print(QuickSort().findKthLargest(nums=[3,3,3,3,4,3,3,3,3], k=1))
