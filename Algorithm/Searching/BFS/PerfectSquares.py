@@ -58,5 +58,22 @@ class Solution(object):
 #                     visited.add(i)
 #         return -1
 
+class Solution2:
+    def numSquares(self, n: int) -> int:
+        nums = [i ** 2 for i in range(1, int(pow(n, 0.5)) + 1)]
+        search_list = []
+        search_list.append(n)
+        known_result = {}
+        known_result[n] = 0
+        while search_list:
+            target = search_list.pop(0) # TODO: 注意list.pop()的index，默认最后一个！！
+            for num in nums:
+                if target - num == 0:
+                    return known_result[target] + 1
+                if target - num not in known_result and target - num > 0:
+                    known_result[target - num] = known_result[target] + 1
+                    search_list.append(target - num)
+        return -1
+
 if __name__ == '__main__':
-    print(Solution().numSquares(n=19))
+    print(Solution2().numSquares(n=12))

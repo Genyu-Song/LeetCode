@@ -11,7 +11,8 @@ class Solution(object):
         :type grid: List[List[str]]
         :rtype: int
         """
-        return 0 if len(grid) == 0
+        if len(grid) == 0:
+            return 0
 
         R, C = len(grid)
 
