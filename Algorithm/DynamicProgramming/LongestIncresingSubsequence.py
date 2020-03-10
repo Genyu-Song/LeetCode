@@ -27,5 +27,22 @@ class Solution:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
 
+class Solution2: # dp + BinarySearch
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums: return 0
+        tails = [nums[0]]
+        for i in range(1, len(nums)):
+            j, flag = 0, False
+            while j < len(tails) and flag == False:
+                if nums[i] <= tails[j]:
+                    tails[j] = nums[i]
+                    flag = True
+                j += 1
+            if flag == False:
+                tails.append(nums[i])
+        return len(tails)
+
+
+
 if __name__ == '__main__':
-    print(Solution().lengthOfLIS(nums=[10,9,2,5,3,7,101,18]))
+    print(Solution2().lengthOfLIS(nums=[2,2]))
