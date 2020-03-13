@@ -8,6 +8,29 @@ Design an algorithm to find the maximum profit. You may complete at most two tra
 Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
 '''
 
+class Solution: # 下个Solution的压缩空间版本
+    def maxProfit(self, prices: List[int]) -> int:
+        if not prices: return 0
+        N = len(prices)
+
+        dp_i_0_0 = 0
+        dp_i_0_1 = - prices[0]
+        dp_i_1_0 = float('-inf')
+        dp_i_1_1 = float('-inf')
+        dp_i_2_0 = float('-inf')
+        dp_i_2_1 = float('-inf')
+
+        for i in range(1, N):
+            temp_i_0_1 = dp_i_0_1
+            temp_i_1_0 = dp_i_1_0
+            temp_i_1_1 = dp_i_1_1
+            dp_i_0_1 = max(dp_i_0_1, - prices[i])
+            dp_i_1_0 = max(dp_i_1_0, temp_i_0_1 + prices[i])
+            dp_i_1_1 = max(dp_i_1_1, temp_i_1_0 - prices[i])
+            dp_i_2_0 = max(dp_i_2_0, temp_i_1_1 + prices[i])
+
+        return max(0, dp_i_1_0, dp_i_2_0)
+
 class Solution(object):
     def maxProfit(self, prices):
         """
