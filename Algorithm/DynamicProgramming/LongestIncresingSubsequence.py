@@ -30,16 +30,20 @@ class Solution:
 class Solution2: # dp + BinarySearch
     def lengthOfLIS(self, nums: List[int]) -> int:
         if not nums: return 0
+        N = len(nums)
         tails = [nums[0]]
-        for i in range(1, len(nums)):
-            j, flag = 0, False
-            while j < len(tails) and flag == False:
-                if nums[i] <= tails[j]:
-                    tails[j] = nums[i]
-                    flag = True
-                j += 1
-            if flag == False:
+        for i in range(1, N):
+            if nums[i] > tails[-1]:
                 tails.append(nums[i])
+            else:
+                left, right = 0, len(tails) - 1
+                while left < right:
+                    mid = left + (right - left) // 2
+                    if tails[mid] >= nums[i]:
+                        right = mid
+                    elif tails[mid] < nums[i]:
+                        left = mid + 1
+                tails[left] = nums[i]
         return len(tails)
 
 

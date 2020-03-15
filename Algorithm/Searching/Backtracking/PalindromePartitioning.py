@@ -57,6 +57,6 @@ class Solution2:
             hashmap[s[:end + 1]] = r
         return hashmap[s]
 
-
+from coll
 if __name__ == '__main__':
-    print(Solution2().partition(s='aab'))
+    print(Solution().partition(s='aaba'))
