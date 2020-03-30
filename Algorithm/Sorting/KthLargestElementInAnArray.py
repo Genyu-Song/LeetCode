@@ -126,6 +126,21 @@ class QuickSort(object):
             pivot = first
         return pivot
 
+    # def get_pivot(self, i, j):
+    #     m = j - (i + j) // 2
+    #     pivot = m
+    #     if self.nums[i] >= self.nums[j]:
+    #         if self.nums[m] >= self.nums[i]:
+    #             pivot = i
+    #         elif self.nums[m] <= self.nums[j]:
+    #             pivot = j
+    #     elif self.nums[j] >= self.nums[i]:
+    #         if self.nums[m] >= self.nums[j]:
+    #             pivot = j
+    #         elif self.nums[m] <= self.nums[i]:
+    #             pivot = i
+    #     return pivot
+
     def partition(self, left, right, pivot):
         if left == right:
             return left
@@ -158,8 +173,47 @@ class QuickSort(object):
             elif store_index == len(nums) - k:
                 return nums[store_index]
 
+from typing import List
+class Solutionxx:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        def swap(i, j):
+            nums[i], nums[j] = nums[j], nums[i]
+
+        def get_pivot(l, r):
+            m = r - (l + r) // 2
+            tmp = [nums[l], nums[m], nums[r]]
+            tmp.sort()
+            if tmp[1] == nums[l]:
+                return l
+            elif tmp[1] == nums[r]:
+                return r
+            return m
+
+        def partition(l, r):
+            pivot_ind = get_pivot(l, r)
+            pivot_val = nums[pivot_ind]
+            swap(pivot_ind, l)
+            border = l
+            for i in range(l + 1, r + 1):
+                if nums[i] < pivot_val:
+                    border += 1
+                    swap(border, i)
+            swap(l, border)
+            return border
+
+        l, r = 0, len(nums) - 1
+        target = len(nums) - k
+        while True:
+            index = partition(l, r)
+            if index == target:
+                return nums[index]
+            elif index > target:
+                r = index - 1
+            else:
+                l = index + 1
+
 if __name__ == '__main__':
-    print(Solution().method2(nums=[3,2,1,5,6,4], k=2))
+    print(Solutionxx().findKthLargest(nums=[3,2,3,1,2,4,5,5,6], k=4))
 
     print(heapify().findKthLargest(nums=[3,2,3,1,2,4,5,5,6], k=9))
 

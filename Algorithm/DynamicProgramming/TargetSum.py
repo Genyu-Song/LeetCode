@@ -37,6 +37,15 @@ class Solution: # dfs 递归
         dfs()
         return count
 
+class Solutionx:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        d = {}
+        def dfs(cur, i, d):
+            if i < len(nums) and (cur, i) not in d: # 搜索周围节点
+                d[(cur, i)] = dfs(cur + nums[i], i + 1, d) + dfs(cur - nums[i],i + 1, d)
+            return d.get((cur, i), int(cur == S))
+        return dfs(0, 0, d)
+
 class Solution2: # dp
     def findTargetSumWays(self, nums: List[int], S: int) -> int:
         if S > 1000: return 0
@@ -71,13 +80,33 @@ class Solution3:
         for i in range(1, len(nums)):
             num = nums[i]
             for sm in range(-total, total+1, 1):
-                # 状态转移方程
-                # dp[i][j] = dp[i-1][j+a[i]] + dp[i-1][j-a[i]]
                 val = dp[i-1].get(sm+num, 0) + dp[i-1].get(sm-num, 0)
                 if val != 0:
                     dp[i][sm] = val
         return dp[-1][S]  # 返回所有元素组合的题解数量
 
+
+class Solutionxx:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        memo = {}
+
+        def dfs(nums=nums, target=0):
+            if (len(nums), target) in memo:
+                return memo[(len(nums), target)]
+
+            if not nums:
+                if target == S:
+                    return 1
+                else:
+                    return 0
+
+            res = dfs(nums[1:], target + nums[0]) + dfs(nums[1:], target - nums[0])
+            memo[(len(nums), target)] = res
+            return res
+
+        return dfs()
+
+
 if __name__ == '__main__':
-    print(Solution3().findTargetSumWays(nums=[2,107,109,113,127,131,137,3,2,3,5,7,11,13,17,19,23,29,47,53],
-                                        S=1000))
+    print(Solutionxx().findTargetSumWays(nums=[1, 1, 1, 1, 1],
+                                        S=3))

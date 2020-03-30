@@ -125,7 +125,49 @@ class Solution3:
         return output
 
 
+class Solution4:
+    def solveNQueens(self, n):
+        res = []
+        cols = set()
+        hills = set()
+        dales = set()
+
+        def could_place(i, j):
+            return i - j not in hills and i + j not in dales and j not in cols
+
+        def place_queen(i, j, path):
+            cols.add(j)
+            hills.add(i - j)
+            dales.add(i + j)
+            cur = ''
+            for x in range(n):
+                if x != j:
+                    cur += '.'
+                else:
+                    cur += 'Q'
+            path.append(cur[:])
+
+        def remove_queen(i, j, path):
+            cols.remove(j)
+            hills.remove(i - j)
+            dales.remove(i + j)
+            path.pop(-1)
+
+        def backtrack(i=0, path=[]):
+            if i == n:
+                res.append(path[:])
+                return
+            else:
+                for j in range(n):
+                    if could_place(i, j):
+                        place_queen(i, j, path)
+                        backtrack(i + 1, path)
+                        remove_queen(i, j, path)
+
+        backtrack()
+        return res
+
 if __name__ == '__main__':
-    board = Solution3().solveNQueens(n=4)
+    board = Solution4().solveNQueens(n=4)
     for i in range(len(board)):
         print(board[i])

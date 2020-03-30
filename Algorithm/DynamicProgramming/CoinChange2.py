@@ -26,5 +26,16 @@ class Solution:
                 dp[i] += dp[i - coin]
         return dp[-1]
 
+from collections import defaultdict
+class Solutionx:
+    def change(self, amount: int, coins: List[int]) -> int:
+        dp = defaultdict(int)
+        dp[0] = 1
+        for coin in coins:
+            for i in range(1, amount+1):
+                if i - coin >= 0:
+                    dp[i] += dp.get(i-coin, 0)
+        return dp[amount]
+
 if __name__ == '__main__':
-    print(Solution().change(amount=4, coins=[1,2,3]))
+    print(Solutionx().change(amount=5, coins=[1,2,5]))

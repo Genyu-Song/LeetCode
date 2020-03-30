@@ -46,5 +46,18 @@ class Solution2:
         return dp[-1] if dp[-1] != float('inf') else -1
 
 
+from collections import defaultdict
+class Solutionx:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = defaultdict(int)
+        dp[0] = 0
+        for i in range(amount+1):
+            for n in coins:
+                if i - n >= 0:
+                    dp[i] = min(dp.get(i, float('inf')), 1 + dp.get(i - n, float('inf')))
+        res = dp.get(amount, -1)
+        return res if res != float('inf') else -1
+
+
 if __name__ == '__main__':
-    print(Solution2().coinChange(coins=[1,3,5], amount=11))
+    print(Solutionx().coinChange(coins=[1, 2, 5], amount=5))

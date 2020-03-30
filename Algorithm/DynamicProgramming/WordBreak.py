@@ -25,8 +25,7 @@ class Solution:
             for j in range(i+1, len(s)+1):
                 if dp[i] and s[i:j] in wordDict:
                     dp[j] = True
-                    break
-        return dp[-1] 
+        return dp[-1]
 
 if __name__ == '__main__':
-    print(Solution().wordBreak(s="applepenapple", wordDict=["apple", "pen"]))
+    print(Solution().wordBreak(s="aaaaaaa", wordDict=["aaaa", "aaa"]))

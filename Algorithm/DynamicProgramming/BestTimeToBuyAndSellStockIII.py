@@ -8,6 +8,7 @@ Design an algorithm to find the maximum profit. You may complete at most two tra
 Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
 '''
 
+from typing import List
 class Solution: # 下个Solution的压缩空间版本
     def maxProfit(self, prices: List[int]) -> int:
         if not prices: return 0
@@ -135,6 +136,50 @@ class Solution5(object): # DP
                 dp[k][i] = max(dp[k][i - 1], prices[i] + pre_max)
         return dp[-1][-1]
 
+class Solutionxxx(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if len(prices) < 2: return 0
+        max_k = 2
+        dp = [[[0, 0] for _ in range(max_k + 1)] for i in range(len(prices))]
+        for i in range(len(prices)):
+            for j in range(max_k, 0, -1):
+                if i == 0:
+                    print(len(prices), i, j)
+                    dp[i][j][0] = 0
+                    dp[i][j][1] = -prices[i]
+                    continue
+                dp[i][j][0] = max(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i])
+                dp[i][j][1] = max(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i])
+
+        return dp[len(prices) - 1][max_k][0]
+
+
+class Solutiontest:
+    def maxProfit(self, prices: List[int]) -> int:
+        if not prices: return 0
+        N = len(prices)
+        dp = [[[0] * 2 for _ in range(3)] for _ in range(N)]
+        dp[0][0][0] = 0
+        dp[0][0][1] = -prices[0]
+        dp[0][1][0] = float('-inf')
+        dp[0][1][1] = float('-inf')
+        dp[0][2][0] = float('-inf')
+        dp[0][2][1] = float('-inf')
+
+        for i in range(1, N):
+            dp[i][0][0] = 0
+            dp[i][0][1] = max(dp[i - 1][0][1], -prices[i])
+
+        for i in range(1, N):
+            for k in range(1, 3):
+                dp[i][k][1] = max(dp[i - 1][k][1], dp[i - 1][k][0] - prices[i])
+                dp[i][k][0] = max(dp[i - 1][k][0], dp[i - 1][k - 1][1] + prices[i])
+
+        return max(dp[-1][0][0], dp[-1][1][0], dp[-1][2][0])
 
 if __name__ == '__main__':
-    print(Solution().maxProfit(prices=[3,3,5,0,0,3,1,4]))
+    print(Solutionxxx().maxProfit(prices=[0,1,2,3,4]))

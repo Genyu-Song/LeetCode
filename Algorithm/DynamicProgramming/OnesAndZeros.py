@@ -52,7 +52,17 @@ class Solution2: # 二维dp，从后往前填！否则更新[j][k]所需要的�
                                        1 + dp[j - zeros][k - ones])
         return dp[-1][-1]
 
+class Solutionx:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        dp = [[[0] * (m+1) for _ in range(n+1)] for _ in range(len(strs)+1)]
+        for k in range(1, len(strs)+1):
+            for i in range(1, n+1):
+                for j in range(1, m+1):
+                    dp[k][i][j] = dp[k-1][i][j]
+                    zeros, ones = strs[k-1].count('0'), strs[k-1].count('1')
+                    if i - ones >= 0 and j - zeros >= 0:
+                        dp[k][i][j] = max(dp[k-1][i-ones][j-zeros] + 1, dp[k-1][i][j])
+        return dp[-1][-1][-1]
+
 if __name__ == '__main__':
-    print(Solution2().findMaxForm(strs=["00","000"],
-                                 m=1,
-                                 n=10))
+    print(Solutionx().findMaxForm(strs=["10","0001","111001","1","0"], m=5, n=3))
